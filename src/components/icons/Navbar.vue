@@ -3,12 +3,20 @@
     <div class="navbar-left">
       <h1 class="brand">TALIMAH.<span class="highlight">MOVIES</span></h1>
       <nav class="nav-links">
-        <RouterLink to="/">Filme</RouterLink>
+        <!-- Menüpunkt mit Dropdown -->
+        <div class="menu-wrapper">
+          <button @click="toggleFilmeMenu" class="nav-button">Filme</button>
+          <div v-if="showFilmeMenu" class="dropdown">
+            <RouterLink to="/filme" @click="showFilmeMenu = false">Beste Filme</RouterLink>
+            <RouterLink to="/filme-bewerten" @click="showFilmeMenu = false">Filme bewerten</RouterLink>
+          </div>
+        </div>
+
+        <!-- Weitere Hauptmenüpunkte -->
         <RouterLink to="/serien">Serien</RouterLink>
         <RouterLink to="/news">News</RouterLink>
         <RouterLink to="/kino">Kino</RouterLink>
         <RouterLink to="/movies">Filmliste</RouterLink>
-
       </nav>
     </div>
 
@@ -18,33 +26,25 @@
         <input type="text" placeholder="Filme, Serien, Stars, Kinos..." />
       </div>
 
-      <!-- Login Icon mit Dropdown -->
       <div class="login-wrapper" @click="toggleLoginMenu">
-        <img
-          src="https://www.svgrepo.com/download/508699/user-circle.svg"
-          alt="Login"
-          class="login-icon"
-        />
+        <img src="https://www.svgrepo.com/download/508699/user-circle.svg" alt="Login" class="login-icon" />
         <div v-if="showLogin" class="login-dropdown" @click.stop>
           <div class="login-header">Anmelden</div>
           <div class="login-quote">
             „Bewerte Filme, entdecke Geschichten – mit Talimah.Movies wird jeder Klick zum Kinoerlebnis.“
           </div>
 
-          <!-- Social Buttons -->
           <div class="social-login-buttons">
             <button class="social-button google">
               <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
               Mit Google anmelden
             </button>
-
             <button class="social-button apple">
               <img src="https://www.svgrepo.com/show/303128/apple-black-logo.svg" alt="Apple" />
               Mit Apple anmelden
             </button>
           </div>
 
-          <!-- Klassisches Login -->
           <form @submit.prevent="handleLogin" class="login-form">
             <input type="text" placeholder="Benutzername" required />
             <input type="password" placeholder="Passwort" required />
@@ -61,16 +61,16 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
 
 const showLogin = ref(false)
+const showFilmeMenu = ref(false)
 
 function toggleLoginMenu() {
   showLogin.value = !showLogin.value
 }
 
-function handleLogin() {
-  alert('Login erfolgreich (Demo)')
+function toggleFilmeMenu() {
+  showFilmeMenu.value = !showFilmeMenu.value
 }
 </script>
 
@@ -93,7 +93,6 @@ function handleLogin() {
 .brand {
   font-size: 1.5rem;
   font-weight: bold;
-  letter-spacing: 1px;
   color: white;
 }
 
@@ -109,18 +108,46 @@ function handleLogin() {
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 1.2rem;
-  margin-left: 1rem;
+  position: relative;
 }
 
-.nav-links a {
-  text-decoration: none;
+.nav-button {
+  background: none;
+  border: none;
   color: white;
   font-weight: bold;
-  transition: color 0.2s;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
-.nav-links a:hover {
+.nav-button:hover {
+  color: #ff6b6b;
+}
+
+.dropdown {
+  background: white;
+  color: black;
+  position: absolute;
+  top: 2.5rem;
+  left: 0;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 999;
+}
+
+.dropdown a {
+  text-decoration: none;
+  color: #2b2236;
+  font-weight: bold;
+}
+
+.dropdown a:hover {
   color: #ff6b6b;
 }
 
@@ -181,7 +208,6 @@ function handleLogin() {
   font-weight: bold;
   background-color: #ff6b6b;
   color: white;
-  display: inline-block;
   padding: 0.3rem 0.7rem;
   border-radius: 3px;
   font-size: 0.9rem;

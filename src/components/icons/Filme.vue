@@ -1,85 +1,101 @@
-<template>
-  <section class="all-movies">
-    <h1>🎞️ Entdecke Filme bei Talimah.Movies</h1>
+<!-- Änderungen: @mouseenter & @mouseleave entfernt → ersetzt mit @click -->
 
-    <div class="movie-grid">
-      <div v-for="movie in movies" :key="movie.id" class="movie-card">
-        <img :src="movie.poster" :alt="movie.title" />
-        <h3>{{ movie.title }}</h3>
-        <p>{{ movie.genre }}</p>
-      </div>
+<template>
+  <header class="navbar">
+    <div class="navbar-left">
+      <h1 class="brand">TALIMAH.<span class="highlight">MOVIES</span></h1>
+      <nav class="nav-links">
+        <!-- Nur beim Klick öffnet sich das Dropdown -->
+        <div class="dropdown">
+          <button class="dropdown-trigger" @click="toggleFilmeDropdown">
+            Filme
+          </button>
+          <div v-if="showFilmeDropdown" class="dropdown-menu">
+            <RouterLink to="/filme" class="dropdown-item" @click="closeDropdown">Beste Filme</RouterLink>
+            <RouterLink to="/filme-bewerten" class="dropdown-item" @click="closeDropdown">Filme bewerten</RouterLink>
+          </div>
+        </div>
+
+        <RouterLink to="/serien">Serien</RouterLink>
+        <RouterLink to="/news">News</RouterLink>
+        <RouterLink to="/movies">Filmliste</RouterLink>
+      </nav>
     </div>
-  </section>
+
+    <div class="navbar-right">
+      <!-- ... dein Login-Bereich bleibt unverändert ... -->
+    </div>
+  </header>
 </template>
 
 <script setup lang="ts">
-const movies = [
-  {
-    id: 1,
-    title: 'Avatar',
-    genre: 'Fantasy, Sci-Fi',
-    poster: 'https://m.media-amazon.com/images/I/81KpQzQq+GL._AC_SY679_.jpg',
-  },
-  {
-    id: 2,
-    title: 'Titanic',
-    genre: 'Drama, Romantik',
-    poster: 'https://m.media-amazon.com/images/I/51rOnIjLqzL._AC_.jpg',
-  },
-  {
-    id: 3,
-    title: 'Shutter Island',
-    genre: 'Thriller, Mystery',
-    poster: 'https://m.media-amazon.com/images/I/91QnHvdW++L._AC_SL1500_.jpg',
-  },
-  {
-    id: 4,
-    title: 'Dune',
-    genre: 'Sci-Fi, Abenteuer',
-    poster: 'https://m.media-amazon.com/images/I/91zGcrZGQZL._AC_SY679_.jpg',
-  },
-]
+import { ref } from 'vue'
+
+const showLogin = ref(false)
+const showFilmeDropdown = ref(false)
+
+function toggleLoginMenu() {
+  showLogin.value = !showLogin.value
+}
+
+function toggleFilmeDropdown() {
+  showFilmeDropdown.value = !showFilmeDropdown.value
+}
+
+function closeDropdown() {
+  showFilmeDropdown.value = false
+}
+
+function handleLogin() {
+  alert('Login erfolgreich (Demo)')
+}
 </script>
 
 <style scoped>
-.all-movies {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+/* ... dein gesamter bestehender Style ... */
+
+.dropdown {
+  position: relative;
 }
 
-.all-movies h1 {
-  text-align: center;
-  margin-bottom: 2rem;
+.dropdown-trigger {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
 }
 
-.movie-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 1.5rem;
+.dropdown-trigger:hover {
+  color: #ff6b6b;
 }
 
-.movie-card {
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
   background: white;
-  border-radius: 10px;
-  overflow: hidden;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  color: #2b2236;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 180px;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
 }
 
-.movie-card img {
-  width: 100%;
-  height: 240px;
-  object-fit: cover;
+.dropdown-item {
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: #2b2236;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
 }
 
-.movie-card h3 {
-  margin: 0.5rem 0 0.2rem;
-}
-
-.movie-card p {
-  color: #666;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+.dropdown-item:hover {
+  background-color: #f6f6f6;
+  color: #ff6b6b;
 }
 </style>
