@@ -11,6 +11,7 @@
       <button type="submit">Film hinzufügen</button>
     </form>
 
+
     <!-- Suchfeld -->
     <div class="filter-bar">
       <input v-model="searchQuery" type="text" placeholder="🔍 Titel oder Genre suchen..." />
