@@ -3,7 +3,6 @@
     <div class="navbar-left">
       <h1 class="brand">TALIMAH.<span class="highlight">MOVIES</span></h1>
       <nav class="nav-links">
-        <!-- Menüpunkt mit Dropdown -->
         <div class="menu-wrapper">
           <button @click="toggleFilmeMenu" class="nav-button">Filme</button>
           <div v-if="showFilmeMenu" class="dropdown">
@@ -11,8 +10,6 @@
             <RouterLink to="/filme-bewerten" @click="showFilmeMenu = false">Filme bewerten</RouterLink>
           </div>
         </div>
-
-        <!-- Weitere Hauptmenüpunkte -->
         <RouterLink to="/serien">Serien</RouterLink>
         <RouterLink to="/news">News</RouterLink>
         <RouterLink to="/kino">Kino</RouterLink>
@@ -32,17 +29,6 @@
           <div class="login-header">Anmelden</div>
           <div class="login-quote">
             „Bewerte Filme, entdecke Geschichten – mit Talimah.Movies wird jeder Klick zum Kinoerlebnis.“
-          </div>
-
-          <div class="social-login-buttons">
-            <button class="social-button google">
-              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" />
-              Mit Google anmelden
-            </button>
-            <button class="social-button apple">
-              <img src="https://www.svgrepo.com/show/303128/apple-black-logo.svg" alt="Apple" />
-              Mit Apple anmelden
-            </button>
           </div>
 
           <form @submit.prevent="handleLogin" class="login-form">
@@ -75,10 +61,167 @@ function toggleFilmeMenu() {
 
 function handleLogin() {
   console.log('Login submitted')
-  // Optional: Logik zur Authentifizierung oder API-Call
 }
 </script>
 
 <style scoped>
-/* Dein kompletter CSS bleibt unverändert, siehe oben */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2b2236;
+  padding: 1rem 2rem;
+  color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  flex-wrap: wrap;
+}
+.brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+.highlight {
+  color: #ff6b6b;
+}
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  position: relative;
+}
+.nav-button {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.nav-button:hover {
+  color: #ff6b6b;
+}
+.dropdown {
+  background: white;
+  color: black;
+  position: absolute;
+  top: 2.5rem;
+  left: 0;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 999;
+}
+.dropdown a {
+  text-decoration: none;
+  color: #2b2236;
+  font-weight: bold;
+}
+.dropdown a:hover {
+  color: #ff6b6b;
+}
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  width: 250px;
+}
+.search-box input {
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  flex: 1;
+  padding-left: 0.5rem;
+}
+.icon {
+  color: #666;
+  font-size: 1rem;
+}
+.login-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+.login-icon {
+  width: 28px;
+  height: 28px;
+  filter: brightness(0) invert(1);
+  border-radius: 50%;
+}
+.login-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 300px;
+  background: white;
+  color: #2b2236;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  z-index: 999;
+}
+.login-header {
+  font-weight: bold;
+  background-color: #ff6b6b;
+  color: white;
+  padding: 0.3rem 0.7rem;
+  border-radius: 3px;
+  font-size: 0.9rem;
+}
+.login-quote {
+  font-size: 0.85rem;
+  margin: 0.7rem 0 1rem;
+  font-style: italic;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.login-form input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.login-form button {
+  padding: 0.7rem;
+  background-color: #2b2236;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.login-link,
+.login-register {
+  display: block;
+  text-align: center;
+  margin-top: 0.7rem;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: #2b2236;
+}
+.login-link:hover,
+.login-register:hover {
+  color: #ff6b6b;
+  text-decoration: underline;
+}
 </style>
