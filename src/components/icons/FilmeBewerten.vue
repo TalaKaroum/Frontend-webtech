@@ -4,7 +4,7 @@
 
     <form @submit.prevent="absenden">
       <label for="film">Filmname:</label>
-      <input id="film" v-model="filmname" required placeholder="Z. B. Inception" />
+      <input id="film" v-model="filmname" required placeholder="Z.B. Inception" />
 
       <label>Bewertung:</label>
       <div class="sterne">
