@@ -10,7 +10,7 @@
             <RouterLink to="/filme-bewerten" @click="showFilmeMenu = false">Filme bewerten</RouterLink>
           </div>
         </div>
-        <RouterLink to="/serien">Serien</RouterLink>
+        <RouterLink to="/aktuelle-serien">📺 Serien</RouterLink>
         <RouterLink to="/news">News</RouterLink>
         <RouterLink to="/kino">Kino</RouterLink>
         <RouterLink to="/movies">Filmliste</RouterLink>

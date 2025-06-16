@@ -80,5 +80,6 @@ export async function ladeFilme() {
 }
 
 onMounted(() => {
+  console.log("TEEEEEEST!!!!")
   ladeFilme()
 })
