@@ -1,3 +1,4 @@
+du hast mein Style verändert:
 <template>
   <header class="navbar">
     <div class="navbar-left">
@@ -10,33 +11,46 @@
             <RouterLink to="/filme-bewerten" @click="showFilmeMenu = false">Filme bewerten</RouterLink>
           </div>
         </div>
-        <RouterLink to="/serien">Serien</RouterLink>
+        <div class="menu-wrapper">
+          <button @click="toggleSerienMenu" class="nav-button">Serien</button>
+          <div v-if="showSerienMenu" class="dropdown">
+            <RouterLink to="/serien" @click="showSerienMenu = false">Serienliste</RouterLink>
+          </div>
+        </div>
         <RouterLink to="/news">News</RouterLink>
         <RouterLink to="/kino">Kino</RouterLink>
         <RouterLink to="/movies">Filmliste</RouterLink>
+        <RouterLink to="/meine-bewertungen">Meine Bewertungen</RouterLink>
       </nav>
     </div>
 
     <div class="navbar-right">
       <div class="search-box">
         <span class="icon">🔍</span>
-        <input type="text" placeholder="Filme, Serien, Stars, Kinos..." />
+        <input
+          v-model="searchTerm"
+          @keyup.enter="goToSearch"
+          type="text"
+          placeholder="Filme, Serien, Stars, Kinos..."
+        />
       </div>
 
       <div class="login-wrapper" @click="toggleLoginMenu">
-        <img src="https://www.svgrepo.com/download/508699/user-circle.svg" alt="Login" class="login-icon" />
+        <img
+          src="https://www.svgrepo.com/download/508699/user-circle.svg"
+          alt="Login"
+          class="login-icon"
+        />
         <div v-if="showLogin" class="login-dropdown" @click.stop>
           <div class="login-header">Anmelden</div>
           <div class="login-quote">
             „Bewerte Filme, entdecke Geschichten – mit Talimah.Movies wird jeder Klick zum Kinoerlebnis.“
           </div>
-
           <form @submit.prevent="handleLogin" class="login-form">
             <input type="text" placeholder="Benutzername" required />
             <input type="password" placeholder="Passwort" required />
             <button type="submit">Anmelden</button>
           </form>
-
           <RouterLink to="/forgot-password" class="login-link">Passwort vergessen?</RouterLink>
           <RouterLink to="/auth?mode=register" class="login-register">Registrieren</RouterLink>
         </div>
@@ -47,20 +61,31 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const showLogin = ref(false)
 const showFilmeMenu = ref(false)
+const showSerienMenu = ref(false)
+const searchTerm = ref('')
 
 function toggleLoginMenu() {
   showLogin.value = !showLogin.value
 }
-
 function toggleFilmeMenu() {
   showFilmeMenu.value = !showFilmeMenu.value
 }
-
+function toggleSerienMenu() {
+  showSerienMenu.value = !showSerienMenu.value
+}
 function handleLogin() {
   console.log('Login submitted')
+}
+function goToSearch() {
+  if (searchTerm.value.trim()) {
+    router.push(`/suche?q=${encodeURIComponent(searchTerm.value.trim())}`)
+    searchTerm.value = ''
+  }
 }
 </script>
 

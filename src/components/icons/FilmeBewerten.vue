@@ -17,7 +17,12 @@
       </div>
 
       <label for="kommentar">Kommentar (optional):</label>
-      <textarea id="kommentar" v-model="kommentar" rows="3" placeholder="Was hat dir gefallen oder nicht?"></textarea>
+      <textarea
+        id="kommentar"
+        v-model="kommentar"
+        rows="3"
+        placeholder="Was hat dir gefallen oder nicht?"
+      ></textarea>
 
       <button type="submit">Absenden</button>
     </form>
@@ -35,11 +40,18 @@ const kommentar = ref('')
 const danke = ref(false)
 
 function absenden() {
-  console.log('Bewertung gesendet:', {
+  const neueBewertung = {
     film: filmname.value,
     sterne: bewertung.value,
     kommentar: kommentar.value,
-  })
+  }
+
+  // Bestehende Bewertungen holen und neue hinzufügen
+  const bisher = JSON.parse(localStorage.getItem('bewertungen') || '[]')
+  bisher.push(neueBewertung)
+  localStorage.setItem('bewertungen', JSON.stringify(bisher))
+
+  console.log('Bewertung gespeichert:', neueBewertung)
 
   // Reset und Dankeschön
   filmname.value = ''
@@ -47,7 +59,6 @@ function absenden() {
   kommentar.value = ''
   danke.value = true
 
-  // Verstecke Danke-Nachricht nach 4 Sekunden
   setTimeout(() => {
     danke.value = false
   }, 4000)
