@@ -4,9 +4,8 @@ import AboutView from '../views/AboutView.vue'
 import LoginRegister from '../components/icons/LoginRegister.vue'
 import ForgotPassword from '../components/icons/ForgotPassword.vue'
 import MovieList from '../components/icons/MovieList.vue'
-import BesteFilme from '../components/icons/BesteFilme.vue'         // ✅ Beste Filme
-import FilmeBewerten from '../components/icons/FilmeBewerten.vue'   // ✅ Filme bewerten
-import AktuelleSerienView from '../views/AktuelleSerienView.vue'    // ✅ Serienseite
+import BesteFilme from '../components/icons/BesteFilme.vue'     // ✅ hinzugefügt
+import FilmeBewerten from '../components/icons/FilmeBewerten.vue' // ✅ hinzugefügt
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,9 +15,8 @@ const router = createRouter({
     { path: '/auth', name: 'auth', component: LoginRegister },
     { path: '/forgot-password', name: 'forgot-password', component: ForgotPassword },
     { path: '/movies', name: 'movies', component: MovieList },
-    { path: '/filme', name: 'beste-filme', component: BesteFilme },
-    { path: '/filme-bewerten', name: 'filme-bewerten', component: FilmeBewerten },
-    { path: '/aktuelle-serien', name: 'aktuelle-serien', component: AktuelleSerienView }, // ✅ NEU
+    { path: '/filme', name: 'beste-filme', component: BesteFilme },         // ✅ Route 1
+    { path: '/filme-bewerten', name: 'filme-bewerten', component: FilmeBewerten }, // ✅ Route 2
   ],
 })
 
