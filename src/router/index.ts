@@ -12,6 +12,7 @@ import SerienListe from '../components/icons/SerienListe.vue'
 import KinoView from '../components/icons/KinoView.vue'
 import SucheView from '../views/SucheView.vue'
 import MeineBewertungen from '../components/icons/MeineBewertungen.vue' // ✅ Bewertete Filme
+import NewsView from '../views/NewsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,7 +27,8 @@ const router = createRouter({
     { path: '/meine-bewertungen', name: 'meine-bewertungen', component: MeineBewertungen }, // ✅ Neue Route
     { path: '/serien', name: 'serien', component: SerienListe },
     { path: '/kino', name: 'kino', component: KinoView },
-    { path: '/suche', name: 'suche', component: SucheView }
+    { path: '/suche', name: 'suche', component: SucheView },
+    { path: '/news', name: 'news', component: NewsView }
   ]
 })
 

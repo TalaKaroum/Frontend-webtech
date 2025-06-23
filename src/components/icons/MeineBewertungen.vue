@@ -21,7 +21,7 @@ import { ref, onMounted } from 'vue'
 const filme = ref<any[]>([])
 
 onMounted(() => {
-  const gespeicherte = JSON.parse(localStorage.getItem('bewerteteFilme') || '[]')
+  const gespeicherte = JSON.parse(localStorage.getItem('bewertungen') || '[]')
   filme.value = gespeicherte.reverse()
 })
 </script>

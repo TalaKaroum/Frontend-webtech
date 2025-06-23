@@ -35,12 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
+import axios from 'axios'
 
-const searchQuery = ref('')
-const minRating = ref(0)
+const useBackend = false // Set to true for Option B (backend
 
-const movies = ref([
+const defaultMovies = [
   {
     id: 1,
     title: 'Inception',
@@ -69,7 +69,13 @@ const movies = ref([
     poster: 'https://m.media-amazon.com/images/I/71UwSHSZRnS.AC_SY679.jpg',
     rating: 8.8,
   },
-])
+]
+
+const searchQuery = ref('')
+const minRating = ref(0)
+
+const movies = ref([...defaultMovies])
+
 
 const newMovie = ref({
   title: '',
@@ -78,14 +84,49 @@ const newMovie = ref({
   rating: 0,
 })
 
-function addMovie() {
-  movies.value.push({
-    id: Date.now(),
-    title: newMovie.value.title,
-    genre: newMovie.value.genre,
-    poster: newMovie.value.poster,
-    rating: newMovie.value.rating,
-  })
+async function loadMovies() {
+  if (useBackend) {
+    try {
+      const { data } = await axios.get('https://filme-check-liste-vb1c.onrender.com/movies')
+      movies.value = data
+    } catch (error) {
+      console.error('Fehler beim Laden der Filme:', error)
+    }
+  } else {
+    const saved = localStorage.getItem('movies')
+    movies.value = saved ? JSON.parse(saved) : [...defaultMovies]
+  }
+}
+
+onMounted(loadMovies)
+
+watch(
+  movies,
+  (val) => {
+    if (!useBackend) {
+      localStorage.setItem('movies', JSON.stringify(val))
+    }
+  },
+  { deep: true }
+)
+
+async function addMovie() {
+  if (useBackend) {
+    try {
+      await axios.post('https://filme-check-liste-vb1c.onrender.com/movies', newMovie.value)
+      await loadMovies()
+    } catch (error) {
+      console.error('Fehler beim Speichern des Films:', error)
+    }
+  } else {
+    movies.value.push({
+      id: Date.now(),
+      title: newMovie.value.title,
+      genre: newMovie.value.genre,
+      poster: newMovie.value.poster,
+      rating: newMovie.value.rating,
+    })
+  }
   newMovie.value = { title: '', genre: '', poster: '', rating: 0 }
 }
 

@@ -44,29 +44,25 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import {
+  loginEmail,
+  loginPassword,
+  registerUsername,
+  registerEmail,
+  registerPassword,
+  handleLogin,
+  handleRegister,
+} from '../../api'
+
 
 const route = useRoute()
 const showLogin = ref(true)
-
-const loginEmail = ref('')
-const loginPassword = ref('')
-const registerUsername = ref('')
-const registerEmail = ref('')
-const registerPassword = ref('')
 
 onMounted(() => {
   if (route.query.mode === 'register') {
     showLogin.value = false
   }
 })
-
-function handleLogin() {
-  console.log('Login:', loginEmail.value, loginPassword.value)
-}
-
-function handleRegister() {
-  console.log('Registrieren:', registerUsername.value, registerEmail.value, registerPassword.value)
-}
 </script>
 
 <style scoped>
@@ -140,7 +136,7 @@ input {
 
 .divider::before,
 .divider::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   width: 40%;

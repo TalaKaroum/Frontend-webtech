@@ -8,12 +8,9 @@
 
       <label>Bewertung:</label>
       <div class="sterne">
-        <span
-          v-for="n in 5"
-          :key="n"
-          @click="bewertung = n"
-          :class="{ aktiv: n <= bewertung }"
-        >★</span>
+        <span v-for="n in 5" :key="n" @click="bewertung = n" :class="{ aktiv: n <= bewertung }"
+        >★</span
+        >
       </div>
 
       <label for="kommentar">Kommentar (optional):</label>
@@ -32,37 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const filmname = ref('')
-const bewertung = ref(0)
-const kommentar = ref('')
-const danke = ref(false)
-
-function absenden() {
-  const neueBewertung = {
-    film: filmname.value,
-    sterne: bewertung.value,
-    kommentar: kommentar.value,
-  }
-
-  // Bestehende Bewertungen holen und neue hinzufügen
-  const bisher = JSON.parse(localStorage.getItem('bewertungen') || '[]')
-  bisher.push(neueBewertung)
-  localStorage.setItem('bewertungen', JSON.stringify(bisher))
-
-  console.log('Bewertung gespeichert:', neueBewertung)
-
-  // Reset und Dankeschön
-  filmname.value = ''
-  bewertung.value = 0
-  kommentar.value = ''
-  danke.value = true
-
-  setTimeout(() => {
-    danke.value = false
-  }, 4000)
-}
+import { filmname, bewertung, kommentar, danke, absendenBewertung as absenden } from '../../api'
 </script>
 
 <style scoped>

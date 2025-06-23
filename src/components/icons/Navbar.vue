@@ -1,4 +1,3 @@
-du hast mein Style verändert:
 <template>
   <header class="navbar">
     <div class="navbar-left">

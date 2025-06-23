@@ -4,8 +4,7 @@ import { ref, onMounted } from 'vue'
 
 // Axios-Konfiguration
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://filme-check-liste-1.onrender.com',
-  withCredentials: true,
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'https://filme-check-liste-vb1c.onrender.com',
 })
 
 // 💾 Login & Registrierung
@@ -48,7 +47,7 @@ export const danke = ref(false)
 
 export async function absendenBewertung() {
   try {
-    await api.post('https://filme-check-liste-vb1c.onrender.com'+'/movies/rating', {
+    await api.post('/movies/rating', {
       title: filmname.value,
       rating: bewertung.value,
       comment: kommentar.value,
@@ -72,7 +71,7 @@ export const movies = ref([])
 
 export async function ladeFilme() {
   try {
-    const response = await api.get('https://filme-check-liste-vb1c.onrender.com'+'/movies')
+    const response = await api.get('/movies')
     movies.value = response.data
   } catch (error) {
     console.error('❌ Filme konnten nicht geladen werden:', error)
