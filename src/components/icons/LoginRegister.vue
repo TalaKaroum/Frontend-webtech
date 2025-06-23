@@ -17,11 +17,12 @@
       <!-- Login Section -->
       <div class="auth-section" v-if="showLogin && !auth.isLoggedIn">
         <h2 class="section-title">Anmelden</h2>
-        <form @submit.prevent="handleLogin">
+        <<form @submit.prevent="submitLogin">
           <input v-model="loginEmail" type="email" placeholder="E-Mail-Adresse" required />
           <input v-model="loginPassword" type="password" placeholder="Passwort" required />
           <button type="submit" class="auth-button">Login</button>
         </form>
+        <p v-if="loginError" class="error-message">{{ loginError }}</p>
       </div>
 
       <!-- Trennlinie -->
@@ -47,7 +48,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { useAuthStore } from '../../stores/auth'
+import { useAuthStore } from '../../stores/auth.ts'
 import {
   loginEmail,
   loginPassword,
@@ -62,7 +63,17 @@ import {
 const route = useRoute()
 const showLogin = ref(true)
 const auth = useAuthStore()
+const loginError = ref('')
 
+async function submitLogin() {
+  try {
+    await handleLogin()
+    loginError.value = ''
+  } catch (e) {
+    loginError.value = 'Login fehlgeschlagen'
+    loginPassword.value = ''
+  }
+}
 onMounted(() => {
   if (route.query.mode === 'register') {
     showLogin.value = false
@@ -206,5 +217,9 @@ input {
 .social-button.apple {
   border-color: #000;
   color: #000;
+}
+error-message {
+  color: red;
+  margin-top: 0.5rem;
 }
 </style>

@@ -45,11 +45,12 @@
           <div class="login-quote">
             „Bewerte Filme, entdecke Geschichten – mit Talimah.Movies wird jeder Klick zum Kinoerlebnis.“
           </div>
-          <form @submit.prevent="handleLogin" class="login-form">
+          <form @submit.prevent="submitLogin" class="login-form">
             <input v-model="loginEmail" type="email" placeholder="E-Mail-Adresse" required />
             <input v-model="loginPassword" type="password" placeholder="Passwort" required />
             <button type="submit">Anmelden</button>
           </form>
+          <p v-if="loginError" class="error-message">{{ loginError }}</p>
           <RouterLink to="/forgot-password" class="login-link">Passwort vergessen?</RouterLink>
           <RouterLink to="/auth?mode=register" class="login-register">Registrieren</RouterLink>
         </div>
@@ -71,7 +72,17 @@ const showLogin = ref(false)
 const showFilmeMenu = ref(false)
 const showSerienMenu = ref(false)
 const searchTerm = ref('')
+const loginError = ref('')
 
+async function submitLogin() {
+  try {
+    await handleLogin()
+    loginError.value = ''
+  } catch (e) {
+    loginError.value = 'Login fehlgeschlagen'
+    loginPassword.value = ''
+  }
+}
 function toggleLoginMenu() {
   showLogin.value = !showLogin.value
 }
@@ -249,5 +260,9 @@ function goToSearch() {
 .login-register:hover {
   color: #ff6b6b;
   text-decoration: underline;
+}
+.error-message {
+  color: red;
+  margin-top: 0.5rem;
 }
 </style>

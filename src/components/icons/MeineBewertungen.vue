@@ -3,12 +3,12 @@
     <h1>⭐ Deine bewerteten Filme</h1>
 
     <ul v-if="filme.length">
-      <li v-for="film in filme" :key="film.id">
-        <strong>{{ film.name }}</strong>
+      <li v-for="(film, index) in filme" :key="index">
+        <strong>{{ film.title }}</strong>
         <div class="sterne">
-          <span v-for="n in 5" :key="n" :class="{ aktiv: n <= film.sterne }">★</span>
+          <span v-for="n in 5" :key="n" :class="{ aktiv: n <= film.stars }">★</span>
         </div>
-        <p v-if="film.kommentar">🗨️ {{ film.kommentar }}</p>
+        <p v-if="film.comment">🗨️ {{ film.comment }}</p>
       </li>
     </ul>
     <p v-else>Du hast noch keine Filme bewertet.</p>

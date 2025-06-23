@@ -37,7 +37,7 @@ export async function handleRegister() {
   }
 }
 
-export async function handleLogin() {
+export async function handleLogin(): Promise<boolean> {
   try {
     const response = await api.post('/auth/login', {
       email: loginEmail.value,
@@ -48,9 +48,11 @@ export async function handleLogin() {
     if (response.data && response.data.token) {
       store.setToken(response.data.token)
     }
+    return true
   } catch (error) {
 
     console.error('❌ Login fehlgeschlagen:', error)
+    throw error
   }
 }
 
@@ -67,6 +69,16 @@ export async function absendenBewertung() {
       rating: bewertung.value,
       comment: kommentar.value,
     })
+    const gespeicherte = JSON.parse(localStorage.getItem('bewertungen') || '[]')
+    const neueBewertung: { title: string; stars: number; comment?: string } = {
+      title: filmname.value,
+      stars: bewertung.value,
+    }
+    if (kommentar.value.trim()) {
+      neueBewertung.comment = kommentar.value
+    }
+    gespeicherte.push(neueBewertung)
+    localStorage.setItem('bewertungen', JSON.stringify(gespeicherte))
 
     filmname.value = ''
     bewertung.value = 0
@@ -96,3 +108,4 @@ export async function ladeFilme() {
 onMounted(() => {
   ladeFilme()
 })
+
