@@ -46,8 +46,8 @@
             „Bewerte Filme, entdecke Geschichten – mit Talimah.Movies wird jeder Klick zum Kinoerlebnis.“
           </div>
           <form @submit.prevent="handleLogin" class="login-form">
-            <input type="text" placeholder="Benutzername" required />
-            <input type="password" placeholder="Passwort" required />
+            <input v-model="loginEmail" type="email" placeholder="E-Mail-Adresse" required />
+            <input v-model="loginPassword" type="password" placeholder="Passwort" required />
             <button type="submit">Anmelden</button>
           </form>
           <RouterLink to="/forgot-password" class="login-link">Passwort vergessen?</RouterLink>
@@ -61,7 +61,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-
+import {
+  loginEmail,
+  loginPassword,
+  handleLogin,
+} from '../../api'
 const router = useRouter()
 const showLogin = ref(false)
 const showFilmeMenu = ref(false)
@@ -77,9 +81,7 @@ function toggleFilmeMenu() {
 function toggleSerienMenu() {
   showSerienMenu.value = !showSerienMenu.value
 }
-function handleLogin() {
-  console.log('Login submitted')
-}
+
 function goToSearch() {
   if (searchTerm.value.trim()) {
     router.push(`/suche?q=${encodeURIComponent(searchTerm.value.trim())}`)

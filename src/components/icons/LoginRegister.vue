@@ -15,7 +15,7 @@
       </div>
 
       <!-- Login Section -->
-      <div class="auth-section" v-if="showLogin">
+      <div class="auth-section" v-if="showLogin && !auth.isLoggedIn">
         <h2 class="section-title">Anmelden</h2>
         <form @submit.prevent="handleLogin">
           <input v-model="loginEmail" type="email" placeholder="E-Mail-Adresse" required />
@@ -28,7 +28,7 @@
       <div class="divider"><span>oder</span></div>
 
       <!-- Register Section -->
-      <div class="auth-section" v-if="!showLogin">
+      <div class="auth-section" v-if="!showLogin && !auth.isLoggedIn">
         <h2 class="section-title">Registrieren</h2>
         <form @submit.prevent="handleRegister">
           <input v-model="registerUsername" type="text" placeholder="Benutzername" required />
@@ -37,6 +37,9 @@
           <button type="submit" class="auth-button secondary">Registrieren</button>
         </form>
       </div>
+      <div v-if="auth.isLoggedIn" class="auth-section">
+        <p>Du bist eingeloggt.</p>
+      </div>
     </div>
   </div>
 </template>
@@ -44,6 +47,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from '../../stores/auth'
 import {
   loginEmail,
   loginPassword,
@@ -57,6 +61,7 @@ import {
 
 const route = useRoute()
 const showLogin = ref(true)
+const auth = useAuthStore()
 
 onMounted(() => {
   if (route.query.mode === 'register') {

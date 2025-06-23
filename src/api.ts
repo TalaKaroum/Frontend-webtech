@@ -1,10 +1,20 @@
 // 📁 src/services/api-komplett.ts
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
+import { useAuthStore } from './stores/auth.ts'
 
 // Axios-Konfiguration
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 'https://filme-check-liste-vb1c.onrender.com',
+})
+// Füge das Token automatisch zu allen Requests hinzu
+api.interceptors.request.use((config) => {
+  const store = useAuthStore()
+  if (store.token) {
+    config.headers = config.headers || {}
+    ;(config.headers as any).Authorization = `Bearer ${store.token}`
+  }
+  return config
 })
 
 // 💾 Login & Registrierung
@@ -34,7 +44,12 @@ export async function handleLogin() {
       password: loginPassword.value,
     })
     console.log('✅ Login erfolgreich:', response.data)
+    const store = useAuthStore()
+    if (response.data && response.data.token) {
+      store.setToken(response.data.token)
+    }
   } catch (error) {
+
     console.error('❌ Login fehlgeschlagen:', error)
   }
 }
@@ -79,6 +94,5 @@ export async function ladeFilme() {
 }
 
 onMounted(() => {
-  console.log("TEEEEEEST!!!!")
   ladeFilme()
 })
