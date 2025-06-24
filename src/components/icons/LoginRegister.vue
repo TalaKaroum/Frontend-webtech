@@ -17,7 +17,7 @@
       <!-- Login Section -->
       <div class="auth-section" v-if="showLogin && !auth.isLoggedIn">
         <h2 class="section-title">Anmelden</h2>
-        <<form @submit.prevent="submitLogin">
+        <form @submit.prevent="submitLogin">
         <input v-model="loginEmail" type="email" placeholder="E-Mail-Adresse" required />
         <input v-model="loginPassword" type="password" placeholder="Passwort" required />
         <button type="submit" class="auth-button">Login</button>
@@ -218,7 +218,7 @@ input {
   border-color: #000;
   color: #000;
 }
-error-message {
+.error-message {
   color: red;
   margin-top: 0.5rem;
 }

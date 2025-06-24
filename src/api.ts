@@ -31,7 +31,7 @@ export async function handleRegister() {
       email: registerEmail.value,
       password: registerPassword.value,
     })
-    console.log('✅ Registrierung erfolgreich:', response.data)
+    // console.log('✅ Registrierung erfolgreich:', response.data)
   } catch (error) {
     console.error('❌ Registrierung fehlgeschlagen:', error)
   }
@@ -43,7 +43,7 @@ export async function handleLogin(): Promise<boolean> {
       email: loginEmail.value,
       password: loginPassword.value,
     })
-    console.log('✅ Login erfolgreich:', response.data)
+    // console.log('✅ Login erfolgreich:', response.data)
     const store = useAuthStore()
     if (response.data && response.data.token) {
       store.setToken(response.data.token)
