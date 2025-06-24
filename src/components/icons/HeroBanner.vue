@@ -1,7 +1,7 @@
 <template>
   <section class="hero">
     <div class="overlay">
-      <h1>Willkommen bei MovieDB</h1>
+      <h1>Willkommen bei TALIMAH.MOVIES</h1>
       <p>Entdecke und bewerte deine Lieblingsfilme!</p>
       <router-link to="/movies" class="cta-button">Jetzt stöbern</router-link>
     </div>
