@@ -47,12 +47,13 @@ export async function handleLogin(): Promise<boolean> {
     const store = useAuthStore()
     if (response.data && response.data.token) {
       store.setToken(response.data.token)
-    }
     return true
+  }
+    return false
   } catch (error) {
 
     console.error('❌ Login fehlgeschlagen:', error)
-    throw error
+    return false
   }
 }
 

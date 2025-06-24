@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useAuthStore } from '../stores/auth'
 
 // Komponenten
 import HomeView from '../views/HomeView.vue'
@@ -31,14 +30,6 @@ const router = createRouter({
     { path: '/suche', name: 'suche', component: SucheView },
     { path: '/news', name: 'news', component: NewsView }
   ]
-})
-router.beforeEach((to, _from, next) => {
-  const auth = useAuthStore()
-  if (!auth.isLoggedIn && to.path !== '/auth' && to.path !== '/forgot-password') {
-    next('/auth')
-  } else {
-    next()
-  }
 })
 
 export default router
