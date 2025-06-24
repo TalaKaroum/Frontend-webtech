@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import axios from 'axios'
-
+import { movies, ladeFilme } from '../../api'
 const useBackend = false // Set to true for Option B (backend
 
 const defaultMovies = [
@@ -74,8 +74,6 @@ const defaultMovies = [
 const searchQuery = ref('')
 const minRating = ref(0)
 
-const movies = ref([...defaultMovies])
-
 
 const newMovie = ref({
   title: '',
@@ -87,8 +85,7 @@ const newMovie = ref({
 async function loadMovies() {
   if (useBackend) {
     try {
-      const { data } = await axios.get('https://filme-check-liste-vb1c.onrender.com/movies')
-      movies.value = data
+      await ladeFilme()
     } catch (error) {
       console.error('Fehler beim Laden der Filme:', error)
     }
@@ -98,7 +95,7 @@ async function loadMovies() {
   }
 }
 
-onMounted(loadMovies)
+onMounted(ladeFilme)
 
 watch(
   movies,

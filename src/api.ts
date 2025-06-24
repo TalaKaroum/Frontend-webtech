@@ -1,6 +1,6 @@
 // 📁 src/services/api-komplett.ts
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useAuthStore } from './stores/auth.ts'
 
 // Axios-Konfiguration
@@ -112,7 +112,4 @@ export async function ladeFilme() {
   }
 }
 
-onMounted(() => {
-  ladeFilme()
-})
 
