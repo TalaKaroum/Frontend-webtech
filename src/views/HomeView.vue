@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import HelloWorld from '../components/HelloWorld.vue'
+import HeroBanner from '../components/icons/HeroBanner.vue'
 </script>
 
 <template>
-  <HelloWorld msg="Willkommen auf der Startseite!" />
+  <HeroBanner />
 </template>
