@@ -1,7 +1,15 @@
-// 📁 src/services/api-komplett.ts
+// 📁 src/services/api.ts
 import axios from 'axios'
 import { ref } from 'vue'
 import { useAuthStore } from './stores/auth.ts'
+
+export interface Movie {
+  id: number
+  title: string
+  genre: string
+  poster: string
+  rating: number
+}
 
 // Axios-Konfiguration
 const api = axios.create({
@@ -101,7 +109,7 @@ export async function absendenBewertung(): Promise<boolean> {
 }
 
 // 🎬 Filme laden
-export const movies = ref([])
+export const movies = ref<Movie[]>([])
 
 export async function ladeFilme() {
   try {

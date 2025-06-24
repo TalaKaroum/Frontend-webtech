@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import axios from 'axios'
-import { movies, ladeFilme } from '../../api'
+import { movies, ladeFilme } from '../../api.ts'
 const useBackend = false // Set to true for Option B (backend
 
 const defaultMovies = [
