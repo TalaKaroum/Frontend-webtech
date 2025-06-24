@@ -90,10 +90,10 @@ export async function absendenBewertung(): Promise<boolean> {
     filmname.value = ''
     bewertung.value = 0
     kommentar.value = ''
-    danke.value = true
+    danke.value = success
 
     setTimeout(() => {
-      danke.value =success
+      danke.value =false
     }, 4000)
   }
 
