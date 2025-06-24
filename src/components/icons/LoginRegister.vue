@@ -17,7 +17,12 @@
       <!-- Login Section -->
       <div class="auth-section" v-if="showLogin && !auth.isLoggedIn">
         <h2 class="section-title">Anmelden</h2>
-        <LoginForm button-class="auth-button" button-label="Login" />
+        <<form @submit.prevent="submitLogin">
+        <input v-model="loginEmail" type="email" placeholder="E-Mail-Adresse" required />
+        <input v-model="loginPassword" type="password" placeholder="Passwort" required />
+        <button type="submit" class="auth-button">Login</button>
+      </form>
+        <p v-if="loginError" class="error-message">{{ loginError }}</p>
       </div>
 
       <!-- Trennlinie -->
@@ -44,14 +49,31 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '../../stores/auth.ts'
-import LoginForm from './LoginForm.vue'
-import { registerUsername, registerEmail, registerPassword, handleRegister
+import {
+  loginEmail,
+  loginPassword,
+  registerUsername,
+  registerEmail,
+  registerPassword,
+  handleLogin,
+  handleRegister,
 } from '../../api'
 
 
 const route = useRoute()
 const showLogin = ref(true)
 const auth = useAuthStore()
+const loginError = ref('')
+
+async function submitLogin() {
+  try {
+    await handleLogin()
+    loginError.value = ''
+  } catch (e) {
+    loginError.value = 'Login fehlgeschlagen'
+    loginPassword.value = ''
+  }
+}
 onMounted(() => {
   if (route.query.mode === 'register') {
     showLogin.value = false
@@ -196,7 +218,7 @@ input {
   border-color: #000;
   color: #000;
 }
-.error-message {
+error-message {
   color: red;
   margin-top: 0.5rem;
 }

@@ -7,9 +7,7 @@
           <button @click="toggleFilmeMenu" class="nav-button">Filme</button>
           <div v-if="showFilmeMenu" class="dropdown">
             <RouterLink to="/filme" @click="showFilmeMenu = false">Beste Filme</RouterLink>
-            <RouterLink to="/filme-bewerten" @click="showFilmeMenu = false"
-            >Filme bewerten</RouterLink
-            >
+            <RouterLink to="/filme-bewerten" @click="showFilmeMenu = false">Filme bewerten</RouterLink>
           </div>
         </div>
         <div class="menu-wrapper">
@@ -45,10 +43,14 @@
         <div v-if="showLogin" class="login-dropdown" @click.stop>
           <div class="login-header">Anmelden</div>
           <div class="login-quote">
-            „Bewerte Filme, entdecke Geschichten – mit Talimah.Movies wird jeder Klick zum
-            Kinoerlebnis.“
+            „Bewerte Filme, entdecke Geschichten – mit Talimah.Movies wird jeder Klick zum Kinoerlebnis.“
           </div>
-          <LoginForm button-label="Anmelden" />
+          <form @submit.prevent="submitLogin" class="login-form">
+            <input v-model="loginEmail" type="email" placeholder="E-Mail-Adresse" required />
+            <input v-model="loginPassword" type="password" placeholder="Passwort" required />
+            <button type="submit">Anmelden</button>
+          </form>
+          <p v-if="loginError" class="error-message">{{ loginError }}</p>
           <RouterLink to="/forgot-password" class="login-link">Passwort vergessen?</RouterLink>
           <RouterLink to="/auth?mode=register" class="login-register">Registrieren</RouterLink>
         </div>
@@ -60,13 +62,27 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import LoginForm from './LoginForm.vue'
+import {
+  loginEmail,
+  loginPassword,
+  handleLogin,
+} from '../../api'
 const router = useRouter()
 const showLogin = ref(false)
 const showFilmeMenu = ref(false)
 const showSerienMenu = ref(false)
 const searchTerm = ref('')
+const loginError = ref('')
 
+async function submitLogin() {
+  try {
+    await handleLogin()
+    loginError.value = ''
+  } catch (e) {
+    loginError.value = 'Login fehlgeschlagen'
+    loginPassword.value = ''
+  }
+}
 function toggleLoginMenu() {
   showLogin.value = !showLogin.value
 }
