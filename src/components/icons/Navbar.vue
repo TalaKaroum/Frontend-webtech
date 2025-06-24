@@ -78,6 +78,8 @@ async function submitLogin() {
   try {
     await handleLogin()
     loginError.value = ''
+    showLogin.value = false
+    router.push({ name: 'home' })
   } catch (e) {
     loginError.value = 'Login fehlgeschlagen'
     loginPassword.value = ''

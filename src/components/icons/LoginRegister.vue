@@ -18,11 +18,15 @@
       <div class="auth-section" v-if="showLogin && !auth.isLoggedIn">
         <h2 class="section-title">Anmelden</h2>
         <form @submit.prevent="submitLogin">
-        <input v-model="loginEmail" type="email" placeholder="E-Mail-Adresse" required />
-        <input v-model="loginPassword" type="password" placeholder="Passwort" required />
-        <button type="submit" class="auth-button">Login</button>
-      </form>
+          <input v-model="loginEmail" type="email" placeholder="E-Mail-Adresse" required />
+          <input v-model="loginPassword" type="password" placeholder="Passwort" required />
+          <button type="submit" class="auth-button">Login</button>
+        </form>
         <p v-if="loginError" class="error-message">{{ loginError }}</p>
+        <p class="toggle-link">
+          Noch kein Konto?
+          <a href="#" @click.prevent="switchToRegister">Registrieren</a>
+        </p>
       </div>
 
       <!-- Trennlinie -->
@@ -37,6 +41,10 @@
           <input v-model="registerPassword" type="password" placeholder="Passwort" required />
           <button type="submit" class="auth-button secondary">Registrieren</button>
         </form>
+        <p class="toggle-link">
+          Schon registriert?
+          <a href="#" @click.prevent="switchToLogin">Anmelden</a>
+        </p>
       </div>
       <div v-if="auth.isLoggedIn" class="auth-section">
         <p>Du bist eingeloggt.</p>
@@ -46,8 +54,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth.ts'
 import {
   loginEmail,
@@ -61,24 +69,38 @@ import {
 
 
 const route = useRoute()
+const router = useRouter()
 const showLogin = ref(true)
 const auth = useAuthStore()
 const loginError = ref('')
+function switchToRegister() {
+  showLogin.value = false
+  router.push({ path: '/auth', query: { mode: 'register' } })
+}
+
+function switchToLogin() {
+  showLogin.value = true
+  router.push({ path: '/auth' })
+}
+
 
 async function submitLogin() {
   try {
     await handleLogin()
     loginError.value = ''
+    router.push({ name: 'home' })
   } catch (e) {
     loginError.value = 'Login fehlgeschlagen'
     loginPassword.value = ''
   }
 }
-onMounted(() => {
-  if (route.query.mode === 'register') {
-    showLogin.value = false
-  }
-})
+watch(
+  () => route.query.mode,
+  (mode) => {
+    showLogin.value = mode !== 'register'
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped>
@@ -221,5 +243,18 @@ input {
 .error-message {
   color: red;
   margin-top: 0.5rem;
+}
+.toggle-link {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.toggle-link a {
+  color: #35495e;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.toggle-link a:hover {
+  color: #42b983;
 }
 </style>
