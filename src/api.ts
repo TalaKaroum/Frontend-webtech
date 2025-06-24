@@ -62,21 +62,28 @@ export const bewertung = ref(0)
 export const kommentar = ref('')
 export const danke = ref(false)
 
-export async function absendenBewertung() {
+export async function absendenBewertung(): Promise<boolean> {
+  const neueBewertung: { title: string; stars: number; comment?: string } = {
+    title: filmname.value,
+    stars: bewertung.value,
+  }
+  if (kommentar.value.trim()) {
+    neueBewertung.comment = kommentar.value
+  }
+
+  let success = false
   try {
-    await api.post('/movies/rating', {
-      title: filmname.value,
-      rating: bewertung.value,
-      comment: kommentar.value,
+    await api.post('/api/filme', {
+      titel: filmname.value,
+      genre: 'Allgemein',
+      bewertung: bewertung.value,
+      kommentar: kommentar.value,
     })
+    success = true
+  } catch (error) {
+    console.error('❌ Fehler beim Absenden:', error)
+  } finally {
     const gespeicherte = JSON.parse(localStorage.getItem('bewertungen') || '[]')
-    const neueBewertung: { title: string; stars: number; comment?: string } = {
-      title: filmname.value,
-      stars: bewertung.value,
-    }
-    if (kommentar.value.trim()) {
-      neueBewertung.comment = kommentar.value
-    }
     gespeicherte.push(neueBewertung)
     localStorage.setItem('bewertungen', JSON.stringify(gespeicherte))
 
@@ -86,11 +93,11 @@ export async function absendenBewertung() {
     danke.value = true
 
     setTimeout(() => {
-      danke.value = false
+      danke.value =success
     }, 4000)
-  } catch (error) {
-    console.error('❌ Fehler beim Absenden:', error)
   }
+
+  return success
 }
 
 // 🎬 Filme laden

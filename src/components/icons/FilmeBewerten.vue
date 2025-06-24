@@ -2,7 +2,7 @@
   <section class="bewertung-section">
     <h1>🎥 Filme bewerten</h1>
 
-    <form @submit.prevent="absenden">
+    <form @submit.prevent="submitBewertung">
       <label for="film">Filmname:</label>
       <input id="film" v-model="filmname" required placeholder="Z.B. Inception" />
 
@@ -25,11 +25,24 @@
     </form>
 
     <p v-if="danke" class="danke-text">🎉 Danke für deine Bewertung!</p>
+    <p v-if="errorMsg" class="error-text">{{ errorMsg }}</p>
   </section>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { filmname, bewertung, kommentar, danke, absendenBewertung as absenden } from '../../api'
+
+const errorMsg = ref('')
+
+async function submitBewertung() {
+  const success = await absenden()
+  if (!success) {
+    errorMsg.value = 'Bewertung konnte nicht gesendet werden.'
+  } else {
+    errorMsg.value = ''
+  }
+}
 </script>
 
 <style scoped>
@@ -85,6 +98,12 @@ button:hover {
 .danke-text {
   margin-top: 1.5rem;
   color: green;
+  text-align: center;
+  font-weight: bold;
+}
+.error-text {
+  margin-top: 1rem;
+  color: red;
   text-align: center;
   font-weight: bold;
 }
