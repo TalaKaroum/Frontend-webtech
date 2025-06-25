@@ -4,7 +4,7 @@ import { setActivePinia, createPinia } from 'pinia'
 // mock axios before importing the module
 let postMock: ReturnType<typeof vi.fn>
 let getMock: ReturnType<typeof vi.fn>
-vi.mock('axios', () => {
+vi.doMock('axios', () => {
   postMock = vi.fn()
   getMock = vi.fn()
   return {
