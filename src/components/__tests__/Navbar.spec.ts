@@ -4,11 +4,15 @@ import { ref } from 'vue'
 
 const push = vi.fn()
 const handleLoginMock = vi.fn()
+
 vi.mock('vue-router', async () => {
   const actual = await vi.importActual<typeof import('vue-router')>('vue-router')
-  return { ...actual, useRouter: () => ({ push }), RouterLink: { template: '<div><slot /></div>' } }
+  return {
+    ...actual,
+    useRouter: () => ({ push }),
+    RouterLink: { template: '<div><slot /></div>' },
+  }
 })
-
 
 vi.mock('../../api', () => ({
   loginEmail: ref(''),

@@ -1,26 +1,26 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { setActivePinia, createPinia } from 'pinia'
 
-// mock axios before importing the module
+// ✅ Mock-Funktionen vorher deklarieren
 const postMock = vi.fn()
 const getMock = vi.fn()
+
+// ✅ Axios mocken (nachdem Funktionen existieren)
 vi.mock('axios', () => ({
   default: {
-    create: vi.fn(() => ({
+    create: () => ({
       interceptors: { request: { use: vi.fn() } },
       post: postMock,
       get: getMock,
-    })),
+    }),
   },
 }))
 
 import { handleLogin, loginEmail, loginPassword } from '@/api'
 import { useAuthStore } from '@/stores/auth'
 
-
 describe('handleLogin', () => {
   beforeEach(() => {
-    // reset pinia store before each test
     setActivePinia(createPinia())
     postMock.mockReset()
     getMock.mockReset()
