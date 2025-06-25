@@ -2,12 +2,12 @@ import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { ref } from 'vue'
 
+const handleLoginMock = vi.fn()
 vi.mock('vue-router', () => ({
   useRoute: () => ({ query: { mode: 'register' } }),
   RouterLink: { template: '<div><slot /></div>' },
 }))
 
-const handleLoginMock = vi.fn()
 vi.mock('../../api', () => ({
   loginEmail: ref(''),
   loginPassword: ref(''),
