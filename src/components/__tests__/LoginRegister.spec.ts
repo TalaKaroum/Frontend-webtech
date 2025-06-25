@@ -33,5 +33,15 @@ describe('LoginRegister.vue', () => {
   it('displays register form when mode=register', () => {
     const wrapper = mount(LoginRegister)
     expect(wrapper.find('h2.section-title').text()).toBe('Registrieren')
+
+  })
+  it('submitLogin shows error when login fails', async () => {
+    handleLoginMock.mockRejectedValue(new Error('fail'))
+    const wrapper = mount(LoginRegister)
+    ;(wrapper.vm as any).loginPassword = 'pass'
+    await (wrapper.vm as any).submitLogin()
+    expect(handleLoginMock).toHaveBeenCalled()
+    expect((wrapper.vm as any).loginError).toBe('Login fehlgeschlagen')
+    expect((wrapper.vm as any).loginPassword).toBe('')
   })
 })
