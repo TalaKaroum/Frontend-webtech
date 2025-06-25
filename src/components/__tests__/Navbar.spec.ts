@@ -2,23 +2,19 @@ import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { ref } from 'vue'
 
-let handleLoginMock: ReturnType<typeof vi.fn>
-let push: ReturnType<typeof vi.fn>
-vi.doMock('vue-router', async () => {
-  push = vi.fn()
+const push = vi.fn()
+const handleLoginMock = vi.fn()
+vi.mock('vue-router', async () => {
   const actual = await vi.importActual<typeof import('vue-router')>('vue-router')
   return { ...actual, useRouter: () => ({ push }), RouterLink: { template: '<div><slot /></div>' } }
 })
 
 
-vi.doMock('../../api', () => {
-  handleLoginMock = vi.fn()
-  return {
-    loginEmail: ref(''),
-    loginPassword: ref(''),
-    handleLogin: handleLoginMock,
-  }
-})
+vi.mock('../../api', () => ({
+  loginEmail: ref(''),
+  loginPassword: ref(''),
+  handleLogin: handleLoginMock,
+}))
 
 import Navbar from '../icons/Navbar.vue'
 
