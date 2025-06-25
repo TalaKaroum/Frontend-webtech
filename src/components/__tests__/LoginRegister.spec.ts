@@ -4,23 +4,27 @@ import { ref } from 'vue'
 import { setActivePinia, createPinia } from 'pinia'
 
 // ✅ Mock zuerst definieren
-const handleLoginMock = vi.fn()
-const handleRegisterMock = vi.fn()
+let handleLoginMock: any
+let handleRegisterMock: any
 
 vi.mock('vue-router', () => ({
   useRoute: () => ({ query: { mode: 'register' } }),
   RouterLink: { template: '<div><slot /></div>' },
 }))
 
-vi.mock('../../api', () => ({
-  loginEmail: ref(''),
-  loginPassword: ref(''),
-  registerUsername: ref(''),
-  registerEmail: ref(''),
-  registerPassword: ref(''),
-  handleLogin: handleLoginMock,
-  handleRegister: handleRegisterMock,
-}))
+vi.mock('../../api', () => {
+  handleLoginMock = vi.fn()
+  handleRegisterMock = vi.fn()
+  return {
+    loginEmail: ref(''),
+    loginPassword: ref(''),
+    registerUsername: ref(''),
+    registerEmail: ref(''),
+    registerPassword: ref(''),
+    handleLogin: handleLoginMock,
+    handleRegister: handleRegisterMock,
+  }
+})
 
 import LoginRegister from '../icons/LoginRegister.vue'
 
@@ -28,6 +32,7 @@ describe('LoginRegister.vue', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
     handleLoginMock.mockReset()
+    handleRegisterMock.mockReset()
   })
 
   it('displays register form when mode=register', () => {

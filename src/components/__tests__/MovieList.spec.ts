@@ -5,7 +5,7 @@ import MovieList from '../icons/MovieList.vue'
 
 describe('MovieList.vue', () => {
   beforeEach(() => {
-    vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue('[]')
+    vi.spyOn(window.localStorage.__proto__, 'getItem').mockReturnValue(null)
     vi.spyOn(window.localStorage.__proto__, 'setItem').mockImplementation(() => {})
   })
 

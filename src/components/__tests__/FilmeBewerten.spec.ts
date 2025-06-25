@@ -2,15 +2,20 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { ref } from 'vue'
 
-const absendenMock = vi.fn()
+let absendenMock: ReturnType<typeof vi.fn>
 
-vi.mock('../../api', () => ({
-  filmname: ref(''),
-  bewertung: ref(0),
-  kommentar: ref(''),
-  danke: ref(false),
-  absendenBewertung: absendenMock,
-}))
+vi.mock('../../api', () => {
+  absendenMock = vi.fn()
+  return {
+    filmname: ref(''),
+    bewertung: ref(0),
+    kommentar: ref(''),
+    danke: ref(false),
+    absendenBewertung: absendenMock,
+    absendenMock,
+  }
+})
+
 
 import FilmeBewerten from '../icons/FilmeBewerten.vue'
 
